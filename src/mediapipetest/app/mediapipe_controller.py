@@ -82,3 +82,14 @@ class MediaPipeController:
         if detections is None or detections.detections is None:
             return 0
         return len(detections.detections)
+
+    def get_faces(self, image: np.ndarray) -> Union[detection_pb2.DetectionList, None]:
+    """
+    Face detection with MediaPipe
+    @return results: results.detections is a list of rectangles, each containing a face
+    """
+    try:
+        return self.face_detection_processor.process(image)
+    except Exception as e:
+        logging.exception("During face detection: {}".format(str(e)))
+        return None
